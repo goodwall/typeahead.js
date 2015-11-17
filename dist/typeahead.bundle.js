@@ -1782,6 +1782,10 @@
                 $.error("node is required");
             }
             www.mixin(this);
+            o.closeOnBLur = o.closeOnBLur || function() {
+                return true;
+            };
+            this.closeOnBLur = o.closeOnBLur;
             this.$node = $(o.node);
             this.query = null;
             this.datasets = _.map(o.datasets, initializeDataset);
@@ -1848,8 +1852,10 @@
                 this.$node.addClass(this.classes.open);
             },
             close: function close() {
-                this.$node.removeClass(this.classes.open);
-                this._removeCursor();
+                if (this.closeOnBLur()) {
+                    this.$node.removeClass(this.classes.open);
+                    this._removeCursor();
+                }
             },
             setLanguageDirection: function setLanguageDirection(dir) {
                 this.$node.attr("dir", dir);
@@ -2275,7 +2281,8 @@
                     }, www);
                     menu = new MenuConstructor({
                         node: $menu,
-                        datasets: datasets
+                        datasets: datasets,
+                        closeOnBLur: o.closeOnBLur
                     }, www);
                     typeahead = new Typeahead({
                         input: input,

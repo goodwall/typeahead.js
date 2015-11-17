@@ -18,9 +18,11 @@ var Menu = (function() {
     if (!o.node) {
       $.error('node is required');
     }
-
+       
     www.mixin(this);
 
+    o.closeOnBLur = o.closeOnBLur || function(){return true;};
+    this.closeOnBLur = o.closeOnBLur;     
     this.$node = $(o.node);
 
     // the latest query #update was called with
@@ -126,8 +128,10 @@ var Menu = (function() {
     },
 
     close: function close() {
-      this.$node.removeClass(this.classes.open);
-      this._removeCursor();
+      if(this.closeOnBLur()){
+        this.$node.removeClass(this.classes.open);
+        this._removeCursor();
+      }
     },
 
     setLanguageDirection: function setLanguageDirection(dir) {
