@@ -61,7 +61,9 @@ var DefaultMenu = (function() {
     // ---------
 
     _hide: function hide() {
-      this.$node.hide();
+      if(this.closeOnBLur()){
+        this.$node.hide();
+      }
     },
 
     _show: function show() {
